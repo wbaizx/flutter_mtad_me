@@ -13,9 +13,7 @@ dependencies:
   plugin_platform_interface: ^2.0.2
 
   applovin_max: 4.4.0
-  anythink_sdk:
-    git:
-      url: https://github.com/wbaizx/me_top_sdk-105.git
+  me_top_sdk: 1.0.5 #anythink_sdk
 
 dev_dependencies:
   flutter_test:
