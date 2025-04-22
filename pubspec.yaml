@@ -1,7 +1,7 @@
 name: flutter_mtad_me
 description: "flutter_mtad_me"
 version: 0.0.1
-homepage:
+homepage: https://github.com/wbaizx/flutter_mtad_me.git
 
 environment:
   sdk: ^3.7.0
