@@ -1,14 +1,15 @@
 import 'dart:async';
 
-import '../../mtad_log.dart';
 import '../cache.dart';
-import '../cong/vnakz_config.dart';
+import '../flutter_mtad_me.dart';
 import '../mtad_ad_lis.dart';
 import '../mtad_key.dart';
+import '../mtad_log.dart';
 
 abstract class BaseLoad {
   Future load(MtadKey key, Map<String, dynamic> itemData, String pid) async {
-    String id = itemData[VnakzConfig.rbdxakdf];
+    String id = itemData[FlutterMtadMe.jsonMapping[MTAD_JSON_ID]];
+
     mtadLog("loader $pid id=$id");
 
     Completer completer = Completer();

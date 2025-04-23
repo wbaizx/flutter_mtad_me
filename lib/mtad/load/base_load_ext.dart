@@ -3,10 +3,9 @@ import 'dart:async';
 import 'package:flutter_mtad_me/mtad/load/ti_load.dart';
 import 'package:flutter_mtad_me/mtad/load/tv_load.dart';
 
-import '../../flutter_mtad_me.dart';
-import '../../mtad_log.dart';
-import '../cong/vnakz_config.dart';
+import '../flutter_mtad_me.dart';
 import '../mtad_key.dart';
+import '../mtad_log.dart';
 import 'base_load.dart';
 import 'mi_load.dart';
 import 'mv_load.dart';
@@ -28,7 +27,7 @@ extension BaseLoadExt on MtadKey {
     setLock(true);
 
     while (true) {
-      var list = await Future.wait([loadItem(pidOne), loadItem(pidTwo)]);
+      var list = await Future.wait([_loadItem(pidOne), _loadItem(pidTwo)]);
       if (list.every((v) => v)) break;
 
       await Future.delayed(const Duration(milliseconds: 2500));
@@ -38,20 +37,20 @@ extension BaseLoadExt on MtadKey {
     mtadLog("load end ------");
   }
 
-  Future<bool> loadItem(String pid) async {
+  Future<bool> _loadItem(String pid) async {
     if (getCache().checkPidRes(pid)) {
       return true;
     }
 
-    List<Map<String, dynamic>>? items = getItems(pid);
+    List<Map<String, dynamic>>? items = _getItems(pid);
     if (items == null || items.isEmpty) return true;
 
     for (var itemData in items) {
-      if (FlutterMtadMe.showIngId == itemData[VnakzConfig.rbdxakdf]) {
+      if (FlutterMtadMe.showIngId == itemData[FlutterMtadMe.jsonMapping[MTAD_JSON_ID]]) {
         return true;
       }
 
-      var loader = getLoad(itemData);
+      var loader = loadMap[itemData[FlutterMtadMe.jsonMapping[MTAD_JSON_PLATFORM]]]?[itemData[FlutterMtadMe.jsonMapping[MTAD_JSON_TYPE]]];
       if (loader != null) {
         try {
           await loader.load(this, itemData, pid).timeout(const Duration(seconds: 50));
@@ -67,14 +66,11 @@ extension BaseLoadExt on MtadKey {
     return getCache().checkPidRes(pid);
   }
 
-  BaseLoad? getLoad(Map<String, dynamic> itemData) {
-    return loadMap[itemData[VnakzConfig.bggzmyak]]?[itemData[VnakzConfig.bpulceyf]];
-  }
-
-  List<Map<String, dynamic>>? getItems(String pid) {
+  List<Map<String, dynamic>>? _getItems(String pid) {
     try {
       var list = List<Map<String, dynamic>>.from(FlutterMtadMe.data[pid]);
-      list.sort((a, b) => b[VnakzConfig.ctrisehr].compareTo(a[VnakzConfig.ctrisehr]));
+      var weight = FlutterMtadMe.jsonMapping[MTAD_JSON_WEIGHT];
+      list.sort((a, b) => b[weight].compareTo(a[weight]));
       return list;
     } catch (e) {
       mtadLog("$pid no items");

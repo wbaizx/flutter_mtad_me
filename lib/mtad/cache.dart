@@ -1,7 +1,7 @@
 import 'package:flutter_mtad_me/mtad/res/base_res.dart';
 
-import '../mtad_log.dart';
-import 'cong/vnakz_config.dart';
+import 'flutter_mtad_me.dart';
+import 'mtad_log.dart';
 
 class Cache {
   final String pidOne;
@@ -23,7 +23,7 @@ class Cache {
 
   bool checkPidRes(String pid) {
     var list = pidMap[pid]!;
-    checkOutRes(list);
+    _checkOutRes(list);
     return list.isNotEmpty;
   }
 
@@ -33,22 +33,22 @@ class Cache {
     mtadLog("putRes $pidOne size=${pidMap[pidOne]?.length} $pidTwo size=${pidMap[pidTwo]?.length}");
   }
 
-  BaseRes? getRes() => getPidRes(pidOne) ?? getPidRes(pidTwo);
+  BaseRes? getRes() => _getPidRes(pidOne) ?? _getPidRes(pidTwo);
 
-  getPidRes(String pid) {
+  _getPidRes(String pid) {
     var list = pidMap[pid]!;
-    checkOutRes(list);
+    _checkOutRes(list);
     if (list.isNotEmpty) {
       return list.removeAt(0);
     }
     return null;
   }
 
-  checkOutRes(List<BaseRes> list) {
+  _checkOutRes(List<BaseRes> list) {
     list.removeWhere((element) {
       int useTime = (DateTime.now().millisecondsSinceEpoch - element.createTime) ~/ 1000;
-      int islejfalTime = element.itemData[VnakzConfig.krywxovj];
-      return useTime > islejfalTime;
+      int time = element.itemData[FlutterMtadMe.jsonMapping[MTAD_JSON_TIME]];
+      return useTime > time;
     });
   }
 }

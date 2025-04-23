@@ -4,11 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_mtad_me/mtad/load/base_load_ext.dart';
 import 'package:flutter_mtad_me/mtad/res/base_res.dart';
 
-import '../flutter_mtad_me.dart';
-import '../mtad_log.dart';
-import 'cong/vnakz_config.dart';
+import 'flutter_mtad_me.dart';
 import 'mtad_ad_lis.dart';
 import 'mtad_key.dart';
+import 'mtad_log.dart';
 
 class ShowResCall {
   bool hasRew = false;
@@ -46,7 +45,7 @@ extension MtadShowExt on MtadKey {
       return null;
     }
 
-    var uid = res.itemData[VnakzConfig.rbdxakdf];
+    var uid = res.itemData[FlutterMtadMe.jsonMapping[MTAD_JSON_ID]];
     FlutterMtadMe.showIngId = uid;
 
     if (await res.checkReady(uid)) {
@@ -87,10 +86,11 @@ extension MtadShowExt on MtadKey {
     mtadLog("showEnd $pidS");
 
     if (res != null) {
-      MtadAdLis.getLis(res.itemData[VnakzConfig.rbdxakdf])
+      MtadAdLis.getLis(res.itemData[FlutterMtadMe.jsonMapping[MTAD_JSON_ID]])
         ..onAdDisplayedCallback = null
         ..onAdClickedCallback = null
         ..onAdHiddenCallback = null
+        ..onAdReceivedRewardCallback = null
         ..onAdDisplayFailedCallback = null;
     }
   }
