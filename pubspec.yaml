@@ -1,6 +1,6 @@
 name: flutter_mtad_me
 description: "flutter_mtad_me"
-version: 0.0.1
+version: 0.0.2
 homepage: https://github.com/wbaizx/flutter_mtad_me.git
 
 environment:
@@ -13,7 +13,7 @@ dependencies:
   plugin_platform_interface: ^2.0.2
 
   applovin_max: 4.4.0
-  me_top_sdk: 1.0.5 #anythink_sdk 1.0.5
+  me_top_sdk: 1.1.0 #anythink_sdk 1.0.5
 
 dev_dependencies:
   flutter_test:
